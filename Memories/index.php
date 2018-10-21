@@ -14,22 +14,22 @@ include_once "get25.php";
     <title>Кнопка</title>
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
     <script>
+        var element = document.getElementsByName("button1");
         function fBefore() {
             $("#info").text("Waaaait...");
         }
 
-        function fSuccess(data) {
-            $("#info").text(data);
+        function fSuccess(response) {
+            $("#info").text('DONE');
+            $('#but').text(response);
         }
 
         $(document).ready(function () {
-            var tratata = "TRATATA";
             $("#but").bind("click", function () {
                 $.ajax({
                     type: "POST",
                     url: "process.php",
-                    data: ({name: tratata, numb: 1231321231}),
-                    dataType: "HTML",
+                    data: 'data='+ JSON.stringify({name: element[0].name, value: element[0].innerHTML}),
                     beforeSend: fBefore,
                     success: fSuccess
                 });
@@ -38,9 +38,7 @@ include_once "get25.php";
     </script>
 </head>
 <body>
-<button id="but" name="value" value="<?php echo $number; ?>"><?php echo $number; ?></button>
-<br>
-<label id="info" name="label" </label>
-
+<button id="but" name="button1" value="<?php echo $number;?>" ><?php echo 'click me!'?></button><br><br><br>
+<label id="info">label</label>
 </body>
 </html>
