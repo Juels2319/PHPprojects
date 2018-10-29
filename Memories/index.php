@@ -14,31 +14,52 @@ include_once "get25.php";
     <title>Кнопка</title>
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
     <script>
-        var element = document.getElementsByName("button1");
+
         function fBefore() {
             $("#info").text("Waaaait...");
         }
 
         function fSuccess(response) {
+            var jsonResponse = JSON.parse(response);
+            console.log(jsonResponse['name']);
             $("#info").text('DONE');
-            $('#but').text(response);
+            var element = $('#' + jsonResponse['name'])[0];   // идентификатор элемента, которому необходимо поменять значение
+            var text = (jsonResponse['value']);
+            element.innerText=text;
         }
-
         $(document).ready(function () {
-            $("#but").bind("click", function () {
+            $("button").bind("click", function () {
                 $.ajax({
-                    type: "POST",
-                    url: "process.php",
-                    data: 'data='+ JSON.stringify({name: element[0].name, value: element[0].innerHTML}),
-                    beforeSend: fBefore,
-                    success: fSuccess
+                        type: "POST",
+                        url: "process.php",
+                        data: 'data=' + JSON.stringify({name: this.name, value: this.innerHTML}),
+                        beforeSend: fBefore,
+                        success: fSuccess
                 });
             });
         });
     </script>
 </head>
 <body>
-<button id="but" name="button1" value="<?php echo $number;?>" ><?php echo 'click me!'?></button><br><br><br>
+    <table class="table">
+        <tr>
+            <td><button id="button1" name="button1" value="<?php echo $number;?>" ><?php echo $number;?></button></td>
+            <td><button id="button2" name="button2" value="<?php echo $number;?>" ><?php echo $number;?></button></td>
+            <td><button id="button3" name="button3" value="<?php echo $number;?>" ><?php echo $number;?></button></td>
+            <td><button id="button4" name="button4" value="<?php echo $number;?>" ><?php echo $number;?></button></td>
+            <td><button id="button5" name="button5" value="<?php echo $number;?>" ><?php echo $number;?></button></td>
+        </tr>
+    </table>
 <label id="info">label</label>
+
+<style>
+    .table{
+        width: 200px;
+    }
+    .table td{
+        width: 100px;
+        height: 100px;
+    }
+</style>
 </body>
 </html>

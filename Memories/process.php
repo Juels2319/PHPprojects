@@ -14,13 +14,13 @@ function processValue($x)
 {
     switch ($x) {
         case 0:
-            echo "1";
+            return "1";
             break;
         case 1:
-            echo "0";
+            return "0";
             break;
         default:
-            echo "1";
+            return "1";
             break;
     }
 }
@@ -28,8 +28,11 @@ function processValue($x)
 function init()
 {
     $json = json_decode($_POST['data'], true);
-    $x = (int)$json['value'];
-    processValue($x);
+    //print_r($json);
+    $name = $json['name'];
+    $value = processValue((int)$json['value']);
+    $response = array('name' => $name, 'value'=> $value);
+    echo json_encode($response);
 }
 
 init();
