@@ -6,4 +6,12 @@
  * Time: 12:47
  */
 
-$number = 25;
+$numbers = [];
+for ($i=1; $i<=12; $i++){
+    //$numbers[$i]=rand(0,1);
+    $numbers[$i]=$i;
+    $numbers[$i+12]=$i;
+}
+$numbers[25]=0;
+
+shuffle($numbers);
