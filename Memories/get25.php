@@ -13,5 +13,4 @@ for ($i=1; $i<=12; $i++){
     $numbers[$i+12]=$i;
 }
 $numbers[25]=0;
-
 shuffle($numbers);

@@ -13,11 +13,11 @@
 function processValue($x)
 {
     switch ($x) {
-        case 0:
-            return "1";
+        case " ":
+            return '1';
             break;
-        case 1:
-            return "0";
+        case '1':
+            return ' ';
             break;
         default:
             return "1";
@@ -25,14 +25,46 @@ function processValue($x)
     }
 }
 
+function check_session()
+{
+    session_start();
+    if (isset($_SESSION['main']))
+    {
+        // ВТОРОЕ НАЖАТИЕ
+        $dev = $_SESSION['main'];
+        session_unset();
+        session_destroy();
+        return $dev;
+    }
+    else
+    {
+        // Первое нажатие
+
+        $dev = 'START';
+        $_SESSION['main']='456';
+        return $dev;
+    }
+
+}
+
 function init()
 {
+
+    $dev = check_session();
+
     $json = json_decode($_POST['data'], true);
     //print_r($json);
     $name = $json['name'];
-    $value = processValue((int)$json['value']);
-    $response = array('name' => $name, 'value'=> $value);
+    //$value = $json['value'];
+    if (isset($json['value']))
+    $value=processValue($json['value']);
+    else $value=processValue(' ');
+
+
+
+    $response = array('name' => $name, 'value'=> $value, 'dev_text'=> $dev);
     echo json_encode($response);
+
 }
 
 init();
